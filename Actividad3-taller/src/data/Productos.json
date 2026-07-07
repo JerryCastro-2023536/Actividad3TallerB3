@@ -1,0 +1,12 @@
+[
+    {
+        "id" : 1,
+        "nombre" : "Cafe",
+        "precio" : 3,
+        "stock" : 200,
+        "categoria" : "comida",
+        "estado" : "activo",
+        "fecha_registro" : "2024-06-10",
+        "descuento" : 22
+    }
+]
