@@ -1,4 +1,4 @@
-import * as readline from "readline"
+import * as readline from "readline/promises";
 
 export const rl = readline.createInterface({
     input : process.stdin,
@@ -10,7 +10,5 @@ export function clearConsole(): void {
 }
 
 export function esperarTecla(callback: () => void): void {
-    rl.question("\nPresione Enter para continuar...", () => {
-        callback();
-    });
+
 }
