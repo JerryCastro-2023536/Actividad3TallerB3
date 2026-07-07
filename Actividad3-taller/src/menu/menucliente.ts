@@ -2,7 +2,7 @@ import { agregarClientes, listarClientes, actualizarCliente, eliminarCliente, bu
 import { rl, clearConsole, esperarTecla } from "../utils/readline";
 import { menu } from "./menu";
 
-export function menuCliente(): void {
+export async function menuCliente() {
     clearConsole();
     console.log("|-------- GESTIÓN DE CLIENTES ----------|");
     console.log("1. Listar Clientes");
@@ -13,108 +13,93 @@ export function menuCliente(): void {
     console.log("0. Volver al Menú Principal");
     console.log("|---------------------------------------|");
 
-    rl.question("Selecciona una opción de cliente: ", (opcion) => {
-        switch (opcion.trim()) {
-            case "1":
-                clearConsole();
-                console.log("|-------- LISTA DE CLIENTES ----------|");
-                console.log(listarClientes());
-                esperarTecla(() => menuCliente());
-                break;
-            case "2":
-                clearConsole();
-                agregarDatos();
-                break;
-            case "3":
-                clearConsole();
-                actualizarDatos();
-                break;
-            case "4":
-                clearConsole();
-                console.log("|---- Buscar -----|");
-                rl.question("Ingrese el ID para buscar: ", (id) => {
-                    console.log(buscarCliente(Number(id)));
-                    esperarTecla(() => menuCliente());
-                });
-                break;
-            case "5":
-                clearConsole();
-                console.log("|---- Eliminar -----|");
-                rl.question("Ingrese el ID para eliminar: ", (id) => {
-                    eliminarCliente(Number(id));
-                    esperarTecla(() => menuCliente());
-                });
-                break;
-            case "0":
-                console.log("Regresando al menú...");
-                menu();
-                break;
-            default:
-                console.log("Opción no válida.");
-                esperarTecla(() => menuCliente());
-                break;
-        }
-    });
+    let opcion = await rl.question("Selecciona una opcion: ");
+    switch (opcion.trim()) {
+        case "1":
+            clearConsole();
+            console.log("|-------- LISTA DE CLIENTES ----------|");
+            console.log(listarClientes());
+            esperarTecla(() => menuCliente());
+            break;
+        case "2":
+            clearConsole();
+            agregarDatos();
+            break;
+        case "3":
+            clearConsole();
+            actualizarDatos();
+            break;
+        case "4":
+            clearConsole();
+            console.log("|---- Buscar -----|");
+            const idBuscar = await rl.question("Ingrese el ID para buscar: ");
+            console.log(buscarCliente(Number(idBuscar)));
+            break;
+        case "5":
+            clearConsole();
+            console.log("|---- Eliminar -----|");
+            const idEliminar = await rl.question("Ingrese el ID para eliminar: ");
+            console.log(eliminarCliente(Number(idEliminar)));
+            break;
+        case "0":
+            console.log("Regresando al menú...");
+            menu();
+            break;
+        default:
+            console.log("Opción no válida.");
+            esperarTecla(() => menuCliente());
+            break;
+    } 
 }
 
-function agregarDatos(): void {
+async function agregarDatos() {
     console.log("|---- Registro ----|");
 
-    rl.question("ID del cliente: ", (p_id) => {
-        rl.question("Nombre: ", (p_nombre) => {
-            rl.question("Edad: ", (p_edad) => {
-                rl.question("DPI: ", (p_dpi) => {
-                    rl.question("Correo: ", (p_correo) => {
-                        rl.question("Telefono: ", (p_telefono) => {
-                            rl.question("Tipo (1: Inicial, 2: Frecuente, 3: Fiel): ", (p_tipo) => {
-                                rl.question("Estado (1: Activo, 2: Inactivo): ", (p_estado) => {
+    const id = await rl.question("ID del cliente: ");
+    const p_nombre = await rl.question("Nombre: ");
+    const p_edad = await rl.question("Edad: ");
+    const p_dpi = await rl.question("DPI: ");
+    const p_correo = await rl.question("Correo: ");
+    const p_telefono = await rl.question("Telefono: ");
+    const p_tipo = await rl.question(
+        "Tipo (1: Inicial, 2: Frecuente, 3: Fiel): ",
+    );
+    const p_estado = await rl.question("Estado (1: Activo, 2: Inactivo): ");
 
-                                    const id = Number(p_id);
-                                    const edad = Number(p_edad);
-                                    const dpi = Number(p_dpi);
-                                    const telefono = Number(p_telefono);
-                                    const tipo = Number(p_tipo);
-                                    const estado = Number(p_estado);
-
-                                    agregarClientes(id, p_nombre, edad, dpi, p_correo, telefono, tipo, estado);
-                                    esperarTecla(() => menuCliente());
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
+    agregarClientes(
+        Number(id),
+        p_nombre,
+        Number(p_edad),
+        Number(p_dpi),
+        p_correo,
+        Number(p_telefono),
+        Number(p_tipo),
+        Number(p_estado),
+    );
 }
 
-function actualizarDatos(): void {
+async function actualizarDatos() {
     console.log("|---- Actualizar ----|");
 
-    rl.question("ID del cliente a actualizar: ", (p_id) => {
-        rl.question("Nombre: ", (p_nombre) => {
-            rl.question("Edad: ", (p_edad) => {
-                rl.question("DPI: ", (p_dpi) => {
-                    rl.question("Correo: ", (p_correo) => {
-                        rl.question("Telefono: ", (p_telefono) => {
-                            rl.question("Tipo (1: Inicial, 2: Frecuente, 3: Fiel): ", (p_tipo) => {
-                                rl.question("Estado (1: Activo, 2: Inactivo): ", (p_estado) => {
+    const id = await rl.question("ID del cliente: ");
+    const p_nombre = await rl.question("Nombre: ");
+    const p_edad = await rl.question("Edad: ");
+    const p_dpi = await rl.question("DPI: ");
+    const p_correo = await rl.question("Correo: ");
+    const p_telefono = await rl.question("Telefono: ");
+    const p_tipo = await rl.question(
+        "Tipo (1: Inicial, 2: Frecuente, 3: Fiel): ",
+    );
+    const p_estado = await rl.question("Estado (1: Activo, 2: Inactivo): ");
 
-                                    const id = Number(p_id);
-                                    const edad = Number(p_edad);
-                                    const dpi = Number(p_dpi);
-                                    const telefono = Number(p_telefono);
-                                    const tipo = Number(p_tipo);
-                                    const estado = Number(p_estado);
-
-                                    actualizarCliente(id, p_nombre, edad, dpi, p_correo, telefono, tipo, estado);
-                                    esperarTecla(() => menuCliente());
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
+    actualizarCliente(
+        Number(id),
+        p_nombre,
+        Number(p_edad),
+        Number(p_dpi),
+        p_correo,
+        Number(p_telefono),
+        Number(p_tipo),
+        Number(p_estado),
+    );
 }
