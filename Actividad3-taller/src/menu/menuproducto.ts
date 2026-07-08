@@ -1,63 +1,66 @@
 import { agregarProducto, listarProductos, actualizarProducto, eliminarProducto, buscarProducto, CalcularIVA } from "../service/productoservice";
 import { rl, clearConsole, esperarTecla } from "../utils/readline";
-import { menu } from "./menu";
 
 export async function menuProducto() {
-    clearConsole();
-    console.log("|-------- GESTIÓN DE PRODUCTOS ----------|");
-    console.log("1. Listar Productos");
-    console.log("2. Agregar Producto");
-    console.log("3. Actualizar Producto");
-    console.log("4. Buscar Producto");
-    console.log("5. Eliminar Producto");
-    console.log("6. Total del Producto");
-    console.log("0. Volver al Menú Principal");
-    console.log("|----------------------------------------|");
+    while (true) {
+        clearConsole();
+        console.log("|-------- GESTIÓN DE PRODUCTOS ----------|");
+        console.log("1. Listar Productos");
+        console.log("2. Agregar Producto");
+        console.log("3. Actualizar Producto");
+        console.log("4. Buscar Producto");
+        console.log("5. Eliminar Producto");
+        console.log("6. Total del Producto");
+        console.log("0. Volver al Menú Principal");
+        console.log("|----------------------------------------|");
 
-    let opcion = await rl.question("Selecciona una opcion: ");
+        let opcion = await rl.question("Selecciona una opcion: ");
 
-    switch (opcion.trim()) {
-        case "1":
-            clearConsole();
-            console.log("|-------- LISTA DE PRODUCTOS ----------|");
-            console.log(listarProductos());
-            esperarTecla(() => menuProducto());
-            break;
-        case "2":
-            clearConsole();
-            agregarDatos();
-            break;
-        case "3":
-            clearConsole();
-            actualizarDatos();
-            break;
-        case "4":
-            clearConsole();
-            console.log("|---- Buscar -----|");
-            const idBuscar = await rl.question("Ingrese el ID que busca: ")
-            console.log(buscarProducto(Number(idBuscar)));
-            break;
-        case "5":
-            clearConsole();
-            console.log("|---- Eliminar -----|");
-            const idEliminar = await rl.question("Ingrese el ID que va eliminar: ")
-            eliminarProducto(Number(idEliminar));
-            break;
-        case "6":
-            clearConsole();
-            const idIVA = await rl.question("Ingrese el ID del producto: ")
-            CalcularIVA(Number(idIVA));
-            break;
-        case "0":
-            console.log("Regresando al menú...");
-            menu();
-            break;
-        default:
-            console.log("Opción no válida.");
-            esperarTecla(() => menuProducto());
-            break;
+        switch (opcion.trim()) {
+            case "1":
+                clearConsole();
+                console.log("|-------- LISTA DE PRODUCTOS ----------|");
+                console.log(await listarProductos());
+                await esperarTecla();
+                break;
+            case "2":
+                clearConsole();
+                await agregarDatos();
+                await esperarTecla();
+                break;
+            case "3":
+                clearConsole();
+                await actualizarDatos();
+                await esperarTecla();
+                break;
+            case "4":
+                clearConsole();
+                console.log("|---- Buscar -----|");
+                const idBuscar = await rl.question("Ingrese el ID que busca: ");
+                console.log(await buscarProducto(Number(idBuscar)));
+                await esperarTecla();
+                break;
+            case "5":
+                clearConsole();
+                console.log("|---- Eliminar -----|");
+                const idEliminar = await rl.question("Ingrese el ID que va eliminar: ");
+                console.log(await eliminarProducto(Number(idEliminar)));
+                await esperarTecla();
+                break;
+            case "6":
+                clearConsole();
+                const idIVA = await rl.question("Ingrese el ID del producto: ");
+                await CalcularIVA(Number(idIVA));
+                await esperarTecla();
+                break;
+            case "0":
+                return;
+            default:
+                console.log("Opción no válida.");
+                await esperarTecla();
+                break;
+        }
     }
-
 }
 
 async function agregarDatos() {
@@ -69,9 +72,17 @@ async function agregarDatos() {
     const p_stock = await rl.question("Stock: ");
     const p_categoria = await rl.question("Categoría (1: Hogar, 2: Comida, 3: Electrónico, 4: Otro): ");
     const p_descuento = await rl.question("Descuento (0-100): ");
+    const p_estado = await rl.question("Estado (1: Activo, 2: Inactivo): ");
     
-    agregarProducto(Number(p_id), p_nombre, Number(p_precio), Number(p_stock), Number(p_categoria), Number(p_descuento));
-                    
+    await agregarProducto(
+        Number(p_id),
+        p_nombre,
+        Number(p_precio),
+        Number(p_stock),
+        Number(p_categoria),
+        Number(p_estado),
+        Number(p_descuento),
+    );
 }
 
 async function actualizarDatos(){
@@ -85,5 +96,13 @@ async function actualizarDatos(){
     const p_descuento = await rl.question("Descuento (0-100): ");
     const p_estado = await rl.question("Estado (1: Activo, 2: Inactivo): ");
 
-    actualizarProducto(Number(p_id), p_nombre, Number(p_precio), Number(p_stock), Number(p_categoria), Number(p_estado), Number(p_descuento));
+    await actualizarProducto(
+        Number(p_id),
+        p_nombre,
+        Number(p_precio),
+        Number(p_stock),
+        Number(p_categoria),
+        Number(p_estado),
+        Number(p_descuento),
+    );
 }   

@@ -3,53 +3,57 @@ import { rl, clearConsole, esperarTecla } from "../utils/readline";
 import { menu } from "./menu";
 
 export async function menuCliente() {
-    clearConsole();
-    console.log("|-------- GESTIÓN DE CLIENTES ----------|");
-    console.log("1. Listar Clientes");
-    console.log("2. Agregar Cliente");
-    console.log("3. Actualizar Cliente");
-    console.log("4. Buscar Cliente");
-    console.log("5. Eliminar Cliente");
-    console.log("0. Volver al Menú Principal");
-    console.log("|---------------------------------------|");
+    while (true) {
+        clearConsole();
+        console.log("|-------- GESTIÓN DE CLIENTES ----------|");
+        console.log("1. Listar Clientes");
+        console.log("2. Agregar Cliente");
+        console.log("3. Actualizar Cliente");
+        console.log("4. Buscar Cliente");
+        console.log("5. Eliminar Cliente");
+        console.log("0. Volver al Menú Principal");
+        console.log("|---------------------------------------|");
 
-    let opcion = await rl.question("Selecciona una opcion: ");
-    switch (opcion.trim()) {
-        case "1":
-            clearConsole();
-            console.log("|-------- LISTA DE CLIENTES ----------|");
-            console.log(listarClientes());
-            esperarTecla(() => menuCliente());
-            break;
-        case "2":
-            clearConsole();
-            agregarDatos();
-            break;
-        case "3":
-            clearConsole();
-            actualizarDatos();
-            break;
-        case "4":
-            clearConsole();
-            console.log("|---- Buscar -----|");
-            const idBuscar = await rl.question("Ingrese el ID para buscar: ");
-            console.log(buscarCliente(Number(idBuscar)));
-            break;
-        case "5":
-            clearConsole();
-            console.log("|---- Eliminar -----|");
-            const idEliminar = await rl.question("Ingrese el ID para eliminar: ");
-            console.log(eliminarCliente(Number(idEliminar)));
-            break;
-        case "0":
-            console.log("Regresando al menú...");
-            menu();
-            break;
-        default:
-            console.log("Opción no válida.");
-            esperarTecla(() => menuCliente());
-            break;
-    } 
+        let opcion = await rl.question("Selecciona una opcion: ");
+        switch (opcion.trim()) {
+            case "1":
+                clearConsole();
+                console.log("|-------- LISTA DE CLIENTES ----------|");
+                console.log(await listarClientes());
+                await esperarTecla();
+                break;
+            case "2":
+                clearConsole();
+                await agregarDatos();
+                await esperarTecla();
+                break;
+            case "3":
+                clearConsole();
+                await actualizarDatos();
+                await esperarTecla();
+                break;
+            case "4":
+                clearConsole();
+                console.log("|---- Buscar -----|");
+                const idBuscar = await rl.question("Ingrese el ID para buscar: ");
+                console.log(await buscarCliente(Number(idBuscar)));
+                await esperarTecla();
+                break;
+            case "5":
+                clearConsole();
+                console.log("|---- Eliminar -----|");
+                const idEliminar = await rl.question("Ingrese el ID para eliminar: ");
+                console.log(await eliminarCliente(Number(idEliminar)));
+                await esperarTecla();
+                break;
+            case "0":
+                return;
+            default:
+                console.log("Opción no válida.");
+                await esperarTecla();
+                break;
+        }
+    }
 }
 
 async function agregarDatos() {
