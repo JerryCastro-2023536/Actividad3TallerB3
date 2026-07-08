@@ -1,12 +1,22 @@
 [
-    {
-        "id": 1,
-        "nombre": "Jerry",
-        "edad": 17,
-        "dpi": 2432532,
-        "correo": "Jerry@gmail.com",
-        "telefono": 12345,
-        "estado": "activo",
-        "tipo_cliente" : "INICIAL"
-    }
+  {
+    "id": 1,
+    "nombre": "Jerry",
+    "edad": 17,
+    "dpi": 2432532,
+    "correo": "Jerry@gmail.com",
+    "telefono": 12345,
+    "estado": "activo",
+    "tipo_cliente": "INICIAL"
+  },
+  {
+    "id": 2,
+    "nombre": "caldo",
+    "edad": 3,
+    "dpi": 34,
+    "correo": "sdgf",
+    "telefono": 34,
+    "estado": "activo",
+    "tipo_cliente": "INICIAL"
+  }
 ]
