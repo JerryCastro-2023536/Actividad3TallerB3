@@ -9,6 +9,6 @@ export function clearConsole(): void {
     console.clear();
 }
 
-export function esperarTecla(callback: () => void): void {
-
+export async function esperarTecla(): Promise<void> {
+    await rl.question("Presione ENTER para continuar...");
 }
