@@ -1,17 +1,20 @@
-import { clientes } from "../data/clientes.js";
 import type { cliente } from "../models/cliente.js";
 import { Tipo } from "../enum/tipo.js";
+import { readClientes } from "../utils/Read.js";
+import { writeCliente } from "../utils/Write.js";
 
-export function listarClientes() : cliente[] {
-    return clientes;
+export async function listarClientes() : Promise<cliente[]> {
+    const c : cliente[] = await readClientes(); 
+    return c;
 }
 
-export function buscarCliente(id: number) {
-    return clientes.find(c => c.id === id);
+export async function buscarCliente(id: number) {
+    const clienteBuscar : cliente[] = await readClientes();
+    return clienteBuscar.find(c => c.id === id);
 }
 
 
-export function agregarClientes(
+export async function agregarClientes(
     id: number, 
     nombre: string, 
     edad: number, 
@@ -21,6 +24,9 @@ export function agregarClientes(
     tipo: number,
     estado: number) {
 
+    
+    const clientes : cliente[] = await readClientes();
+    
     if (clientes.some(c => c.id === id)) {
         console.log("Ya existe un cliente con ese ID.");
         return;
@@ -43,14 +49,16 @@ export function agregarClientes(
         tipo_cliente: tc
     });
 
+    await writeCliente(clientes);
+
     console.log("Se ha agregado correctamente");
 }
 
 
-export function actualizarCliente(id: number, nombre: string, edad: number, 
+export async function actualizarCliente(id: number, nombre: string, edad: number, 
     dpi: number, correo: string, telefono: number, tipo: number, estado: number) {
-
-    const indice = clientes.findIndex(u => u.id === id);
+    const clienteActualizar : cliente[] = await readClientes();
+    const indice = clienteActualizar.findIndex(u => u.id === id);
 
     if (indice !== -1) {
         let tc = Tipo.INICIAL;
@@ -59,7 +67,7 @@ export function actualizarCliente(id: number, nombre: string, edad: number,
 
         const est = estado === 2 ? "inactivo" : "activo";
         
-        const clienteEncontrado = clientes[indice];
+        const clienteEncontrado = clienteActualizar[indice];
 
         clienteEncontrado!.nombre = nombre;
         clienteEncontrado!.edad = edad;
@@ -75,11 +83,12 @@ export function actualizarCliente(id: number, nombre: string, edad: number,
     }
 }
 
-export function eliminarCliente(id: number) {
-    const indice = clientes.findIndex(u => u.id === id);
+export async function eliminarCliente(id: number) {
+    const clienteEliminar : cliente[] = await readClientes();
+    const indice = clienteEliminar.findIndex(u => u.id === id);
 
     if (indice !== -1) {
-        clientes.splice(indice, 1);
+        clienteEliminar.splice(indice, 1);
         console.log("Elemento eliminado");
     } else {
         console.log("Elemento no encontrado");
