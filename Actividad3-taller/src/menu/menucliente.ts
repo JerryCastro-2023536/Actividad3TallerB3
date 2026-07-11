@@ -70,7 +70,7 @@ async function agregarDatos() {
     );
     const p_estado = await rl.question("Estado (1: Activo, 2: Inactivo): ");
 
-    agregarClientes(
+    const mensaje = await agregarClientes(
         Number(id),
         p_nombre,
         Number(p_edad),
@@ -80,6 +80,7 @@ async function agregarDatos() {
         Number(p_tipo),
         Number(p_estado),
     );
+    console.log(mensaje);
 }
 
 async function actualizarDatos() {
@@ -96,7 +97,7 @@ async function actualizarDatos() {
     );
     const p_estado = await rl.question("Estado (1: Activo, 2: Inactivo): ");
 
-    actualizarCliente(
+    const mensaje = await actualizarCliente(
         Number(id),
         p_nombre,
         Number(p_edad),
@@ -106,4 +107,5 @@ async function actualizarDatos() {
         Number(p_tipo),
         Number(p_estado),
     );
+    console.log(mensaje);
 }

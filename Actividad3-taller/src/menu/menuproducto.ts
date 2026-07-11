@@ -74,7 +74,7 @@ async function agregarDatos() {
     const p_descuento = await rl.question("Descuento (0-100): ");
     const p_estado = await rl.question("Estado (1: Activo, 2: Inactivo): ");
     
-    await agregarProducto(
+    const mensaje = await agregarProducto(
         Number(p_id),
         p_nombre,
         Number(p_precio),
@@ -83,6 +83,7 @@ async function agregarDatos() {
         Number(p_estado),
         Number(p_descuento),
     );
+    console.log(mensaje);
 }
 
 async function actualizarDatos(){
@@ -96,7 +97,7 @@ async function actualizarDatos(){
     const p_descuento = await rl.question("Descuento (0-100): ");
     const p_estado = await rl.question("Estado (1: Activo, 2: Inactivo): ");
 
-    await actualizarProducto(
+    const mensaje = await actualizarProducto(
         Number(p_id),
         p_nombre,
         Number(p_precio),
@@ -105,4 +106,5 @@ async function actualizarDatos(){
         Number(p_estado),
         Number(p_descuento),
     );
-}   
+    console.log(mensaje);
+}
